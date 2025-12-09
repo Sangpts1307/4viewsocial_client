@@ -8,10 +8,15 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-2"></div>
+                        <div class="col-md-2 add-story-box">
+                            <div class="story-item add-story" @click="openStoryModal">
+                                    <i class="bi bi-plus-lg"></i>
+                            </div>
+                        </div>
                         <div class="col-md-8">
                             <!-- Story -->
                             <div class="story">
+                                
                                 <div class="story-item">
                                     <img src="../assets/post1.jpg" alt="Logo" />
                                 </div>
@@ -20,6 +25,9 @@
                                 </div>
                                 <div class="story-item">
                                     <img src="../assets/logo.png" alt="Logo" />
+                                </div>
+                                <div class="story-item">
+                                    <img src="../assets/post1.jpg" alt="Logo" />
                                 </div>
                                 <div class="story-item">
                                     <img src="../assets/post1.jpg" alt="Logo" />
@@ -35,34 +43,28 @@
                                     <span style="font-weight: lighter;">
                                         {{ formatTime(post.created_at) }}
                                     </span>
-
                                 </div>
 
                                 <!-- Ảnh bài viết -->
                                 <!-- <img :src="post.thumbnail_url || '../assets/logo.png'" alt="Thumbnail"
                                     class="post-image" /> -->
                                 <img src="../assets/svt5.jpg" alt="Thumbnail" class="post-image" />
-
                                 <!-- Nút thích & bình luận -->
                                 <div class="post-actions">
                                     <!-- LIKE -->
                                     <button class="action-btn">
                                         <i class="bi bi-heart"></i>
                                     </button>
-
                                     <!-- COMMENT -->
                                     <button class="action-btn" data-bs-toggle="offcanvas"
                                         data-bs-target="#commentPanel">
                                         <i class="bi bi-chat-left-text"></i> {{ post.total_comment }}
                                     </button>
-
                                     <!-- SAVE (đẩy sang phải) -->
                                     <button class="action-btn ms-auto">
                                         <i class="bi bi-bookmark"></i>
                                     </button>
                                 </div>
-
-
                                 <!-- Caption -->
                                 <div class="box-detail" style="margin-left: 1rem; margin-bottom: 1rem;">
                                     <div class="post-caption" style="font-weight: bold;">
@@ -77,7 +79,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -162,6 +163,34 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Upload Story -->
+        <div class="modal fade" id="storyModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tạo Story</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <label class="btn btn-outline-primary">
+                        Chọn ảnh/video
+                        <input type="file" hidden @change="handleStoryUpload" accept="image/*,video/*" />
+                        </label>
+                        <!-- Preview -->
+                        <div v-if="storyPreview" class="mt-3">
+                        <img v-if="isStoryImg" :src="storyPreview" class="img-fluid rounded"/>
+                        <video v-if="isStoryVideo" :src="storyPreview" controls class="img-fluid rounded"></video>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button class="btn btn-primary">Đăng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -179,10 +208,34 @@ import {
     onUnmounted,
     onUpdated
 } from "vue";
-
 import api from "../api/client";
-</script>
 
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+const storyPreview = ref(null);
+const isStoryImg = ref(false);
+const isStoryVideo = ref(false);
+
+const handleStoryUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    storyPreview.value = URL.createObjectURL(file);
+
+    if (file.type.startsWith("image/")) {
+        isStoryImg.value = true;
+        isStoryVideo.value = false;
+    } else {
+        isStoryImg.value = false;
+        isStoryVideo.value = true;
+    }
+};
+const openStoryModal = () => {
+    const modal = new bootstrap.Modal(document.getElementById("storyModal"));
+    modal.show();
+};
+
+</script>
+    
 <script>
 export default {
     props: {
@@ -277,7 +330,7 @@ export default {
 
             const year = day / 365;
             return `${Math.floor(year)} năm trước`;
-        }
+        },
     },
 };
 </script>
@@ -296,20 +349,51 @@ body {
 
 /* END SIDEBAR */
 
-.story {
+.story { 
+    display: flex; 
+    gap: 15px; 
+    padding: 15px 0; 
+    border-bottom: 1px solid #ddd; 
+    background: #fff; 
+    border-radius: 10px; 
+} 
+.story-item img { 
+    width: 90px; 
+    height: 90px; 
+    border-radius: 50%; 
+    border: 3px solid #f06292; 
+}
+/* Ô tạo story */
+.add-story-box {
     display: flex;
-    gap: 15px;
-    padding: 15px 0;
-    border-bottom: 1px solid #ddd;
-    background: #fff;
-    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
-.story-item img {
+.add-story {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    border: 3px solid #f06292;
+    background: white;
+    border: 3px dashed #ccc;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* căn giữa ngang */
+    align-items: center;     /* căn giữa dọc */
+}
+
+.add-story i {
+    font-size: 32px;
+    color: #ff90c2;
+}
+
+
+.add-story:hover {
+    border-color: #ff90c2;
+}
+.add-story i {
+    font-size: 32px;
+    color: #ff90c2;
 }
 
 .post {
@@ -343,21 +427,6 @@ body {
     border-top: 1px solid #eee;
 }
 
-/* .action-btn {
-    background: #fce4ec;
-    color: #e91e63;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.action-btn:hover {
-    background: #f8bbd0;
-} */
 .action-btn {
     background: none !important;
     color: #333;

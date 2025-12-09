@@ -2,12 +2,29 @@
     <div class="col-md-2 sidebar" style="padding: 50px;">
         <h3 class="mb-4">4ViewsSocial</h3>
         <div class="nav flex-column gap-3 sidebar-menu">
-            <a href="#" class="text-dark"><i class="bi bi-house-door"></i> Trang chủ</a>
-            <a href="#" class="text-dark"><i class="bi bi-search"></i> Tìm kiếm</a>
-            <a href="#" class="text-dark"><i class="bi bi-compass"></i> Khám phá</a>
-            <a href="#" class="text-dark"><i class="bi bi-chat-dots"></i> Tin nhắn</a>
-            <a href="#" class="text-dark"><i class="bi bi-bell"></i> Thông báo</a>
-            <a href="#" class="text-dark"><i class="bi bi-plus-circle"></i> Tạo</a>
+            <a href="/homepage" class="text-dark"><i class="bi bi-house-door"></i> Trang chủ</a>
+            <a 
+                class="text-dark"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasSearch"
+                >
+                <i class="bi bi-search"></i> Tìm kiếm
+            </a>
+            <a href="/explore" class="text-dark"><i class="bi bi-compass"></i> Khám phá</a>
+            <a href="/message" class="text-dark"><i class="bi bi-chat-dots"></i> Tin nhắn</a>
+            <a 
+                class="text-dark"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNotify"
+                >
+                <i class="bi bi-bell"></i> Thông báo
+            </a>
+            <a href="#" 
+                class="text-dark"
+                data-bs-toggle="modal" 
+                data-bs-target="#uploadModal">
+                <i class="bi bi-plus-circle"></i> Tạo
+            </a>
             <a href="#" class="text-dark"><i class="bi bi-person-circle"></i> Trang cá nhân</a>
         </div>
     </div>
