@@ -13,7 +13,7 @@ import {
     onUpdated
 } from "vue";
 
-import api from "../api/client";
+import api from "@/api/client";
 
 // nhận props
 const props = defineProps({

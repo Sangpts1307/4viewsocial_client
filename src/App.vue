@@ -1,85 +1,46 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
   <RouterView />
+
+  <!-- Tìm kiếm -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSearch" style="border-radius: 10px ;">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Tìm kiếm</h5>
+      <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+      <input type="text" class="form-control mb-3" placeholder="Nhập tên người dùng..." />
+      <div class="d-flex align-items-center mb-2" v-for="i in 5" :key="i">
+        <img :src="'https://picsum.photos/40?random=' + i" class="rounded-circle me-2" />
+        <span>Người dùng {{ i }}</span>
+      </div>
+    </div>
+  </div>
+  <!-- Thông báo -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNotify" style="border-radius: 10px ;">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Thông báo</h5>
+      <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="notification-item mb-3 p-2 border rounded" v-for="i in 8" :key="i">
+        <b>Lee Min Ho</b> đã thích bài viết của bạn ❤️
+        <div class="text-muted small">2 giờ trước</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Upload Ảnh/Video -->
+  <!-- Đã xóa để copy sang homepage -->
 </template>
 
+<script setup>
+import { RouterView } from 'vue-router'
+import { ref } from "vue"
+
+
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
