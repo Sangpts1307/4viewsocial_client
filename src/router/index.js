@@ -4,6 +4,9 @@ import Login from '@/components/auth/Login.vue'
 import Signup from '@/components/auth/Signup.vue'
 import HomePage from '../views/HomePage.vue'
 import SidebarComponent from '@/components/SidebarComponent.vue'
+import Explore from '@/views/Explore.vue'
+import Message from '@/views/Message.vue'
+import Profile from '@/views/Profile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,8 +37,22 @@ const router = createRouter({
       path: '/sidebar',
       name: 'sidebar',
       component: SidebarComponent
+    },
+    {
+      path: '/explore',
+      name: 'explore',
+      component: Explore
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: Message
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     }
-    
   ],
 })
 
