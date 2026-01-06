@@ -37,3 +37,6 @@ npm run dev
 npm run build
 ```
 # 4viewsocial_client
+
+chạy lệnh để thêm boostrap vào 
+npm install bootstrap bootstrap-icons

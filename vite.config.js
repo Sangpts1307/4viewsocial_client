@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    host: '0.0.0.0', // Cho phép truy cập từ mọi IP
+    port: 5173,      // Giữ nguyên port
+  }
 })
