@@ -1,10 +1,9 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -12,11 +11,13 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
-    host: '0.0.0.0', // Cho phép truy cập từ mọi IP
-    port: 5173,      // Giữ nguyên port
-  }
-})
+    host: true,           // listen tất cả IP
+    port: 5173,           // port dev server
+    strictPort: false,    // nếu port 5173 bị trùng, chọn port khác
+    allowedHosts: ['.4viewsocial_client.com'], // cho phép host này và subdomain
+  },
+});

@@ -321,21 +321,34 @@ const scrollToBottom = () => {
 const initSocket = () => {
     socket = io("http://localhost:8002"); 
     socket.on("receive_message", (newMsg) => {
+        
+        // KIỂM TRA: Nếu tin nhắn đến từ chính mình (người đang đăng nhập) thì KHÔNG push vào mảng messages nữa
+        // Vì ở hàm sendMessage bạn đã push rồi.
+        const isMyMessage = String(newMsg.sender_id) === String(userInfo.id);
+
         if (activeChat.value && activeChat.value.id === newMsg.conversation_id) {
-            activeChat.value.messages.push({
-                text: newMsg.content,
-                me: String(newMsg.sender_id) === String(userInfo.id),
-                attachments: newMsg.attachments || [],
-                created_at: newMsg.created_at
-            });
-            scrollToBottom();
+            // Chỉ push vào nếu KHÔNG PHẢI là tin nhắn của mình
+            if (!isMyMessage) {
+                activeChat.value.messages.push({
+                    text: newMsg.content,
+                    me: false, // Vì !isMyMessage nên chắc chắn là false
+                    attachments: newMsg.attachments || [],
+                    created_at: newMsg.created_at
+                });
+                scrollToBottom();
+            }
         }
+
+        // Phần cập nhật Sidebar (Tin nhắn cuối, giờ gửi) thì VẪN PHẢI CHẠY 
+        // để cập nhật lại thứ tự chat list dù là tin mình vừa gửi
         const chatItem = chatList.value.find(c => c.id === newMsg.conversation_id);
         if (chatItem) {
             chatItem.lastMessage = newMsg.content;
+            chatItem.me = isMyMessage; // Cập nhật trạng thái người gửi cuối
             chatItem.updated_at = new Date().toISOString();
             chatList.value.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
         } else {
+            // Nếu là cuộc trò chuyện mới chưa có trong list thì fetch lại
             fetchChatList();
         }
     });
